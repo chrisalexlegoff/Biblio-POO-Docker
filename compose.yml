@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  # service Php
+  php:
+    build: './php_docker/'
+    env_file:
+      - .env
+    volumes:
+      - ./www/:/var/www/html
+
+  # service Apache
+  apache:
+    build: './apache_docker/'
+    depends_on:
+      - php
+    ports:
+      - '8080:80'
+    volumes:
+      - ./www/:/var/www/html
+
+  # Service MariaDB
+  mariadb:
+    image: mariadb:11.2
+    ports:
+      - "3308:3306"
+    env_file:
+      - .env
+    volumes:
+      - bibliodatabase:/var/lib/mysql 
+
+  # service PhpMyadmin
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - '8081:80'
+    environment:
+      - PMA_HOST=mariadb
+    depends_on:
+      - mariadb
+
+# volumes nommés gérés par Docker Engine
+volumes:
+  bibliodatabase:
