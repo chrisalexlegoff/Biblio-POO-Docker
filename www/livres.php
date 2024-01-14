@@ -1,14 +1,9 @@
 <?php
 require_once 'Livre.class.php';
-$l1 = new Livre(1, "Le Virus Asiatique", 200, "virus.png");
-$l2 = new Livre(1, "La france du 19ème", 100, "france.png");
-$l3 = new Livre(1, "Le Javascript Client", 500, "JS.png");
-
 require_once "LivreManager.class.php";
+
 $livreManager = new LivreManager;
-$livreManager->ajouterLivre($l1);
-$livreManager->ajouterLivre($l2);
-$livreManager->ajouterLivre($l3);
+$livreManager->chargementLivres();
 
 ob_start() ?>
 

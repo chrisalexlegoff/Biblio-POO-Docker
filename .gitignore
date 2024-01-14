@@ -1,5 +1,11 @@
 # env
 .env
 
+# database
+/database
+
+# Maquettage
+/Maquettes
+
 # VsCode
 .vscode
