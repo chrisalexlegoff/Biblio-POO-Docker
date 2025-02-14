@@ -1,4 +1,15 @@
-<?php ob_start() ?>
+<?php
+ob_start();
+
+if (!empty($_SESSION['alert'])) :
+?>
+    <div class="alert alert-<?= $_SESSION['alert']['type'] ?>" role="alert">
+        <?= $_SESSION['alert']['msg'] ?>
+    </div>
+<?php
+endif;
+?>
+
 <?php if ($pasDeLivre === false) : ?>
     <table class="table text-center">
         <tr class="table-dark">
@@ -18,7 +29,9 @@
                         </a>
                     </td>
                     <td class="align-middle"><?= $livre->getNbPages(); ?></td>
-                    <td class="align-middle"><a href="" class="btn btn-warning">Modifier</a></td>
+                    <td class="align-middle">
+                        <a href="<?= URL ?>livres/m/<?= $livre->getId(); ?>" class="btn btn-warning">Modifier</a>
+                    </td>
                     <td class="align-middle">
                         <form method="POST" action="<?= URL ?>livres/s/<?= $livre->getId(); ?>" onSubmit="return confirm('Voulez-vous vraiment supprimer le livre <?= $livre->getTitre(); ?> ?');">
                             <button class="btn btn-danger" type="submit">Supprimer</button>

@@ -10,6 +10,29 @@ $usersController = new UsersController;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://bootswatch.com/5/sketchy/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#upload-image").click(function() {
+                $("#form-modification-livre").ajaxForm({
+                    target: '.preview'
+                }).submit();
+            });
+
+            function imagePreview(fileInput) {
+                if (fileInput.files && fileInput.files[0]) {
+                    var fileReader = new FileReader();
+                    fileReader.onload = function(event) {
+                        $('#preview').html('<img src="' + event.target.result + '"/>');
+                    };
+                    fileReader.readAsDataURL(fileInput.files[0]);
+                }
+            }
+            $("#image").change(function() {
+                imagePreview(this);
+            });
+        });
+    </script>
     <title>Biblio | <?= $titre ?></title>
 </head>
 

@@ -1,10 +1,11 @@
 <?php
 class User
 {
-    public int $id;
-    public string $identifiant;
+    private int $id;
+    private string $identifiant;
     private string $password;
-    public bool $isValide;
+    private array $roles;
+    private bool $isValide;
 
     public function __construct(int $id, string $identifiant, string $password)
     {
