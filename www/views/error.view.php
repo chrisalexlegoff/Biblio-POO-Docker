@@ -1,6 +1,6 @@
 <?php ob_start() ?>
 
-"page erreur";
+<?= $msg; ?>
 
 <?php
 $titre = "Contenu introuvable";

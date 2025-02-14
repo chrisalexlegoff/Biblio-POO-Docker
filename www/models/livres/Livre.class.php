@@ -7,13 +7,15 @@ class Livre
     private string $titre;
     private int $nbPages;
     private string $image;
+    private string $uploader;
 
-    public function __construct(int $id, string $titre, int $nbPages, string $image)
+    public function __construct(int $id, string $titre, int $nbPages, string $image, string $uploader = "")
     {
         $this->id = $id;
         $this->titre = $titre;
         $this->nbPages = $nbPages;
         $this->image = $image;
+        $this->uploader = $uploader;
     }
 
     /**
@@ -106,5 +108,15 @@ class Livre
     {
         $this->image = $image;
         return $this;
+    }
+
+    /**
+     * Get the value of uploader
+     *
+     * @return string
+     */
+    public function getUploader(): string
+    {
+        return $this->uploader;
     }
 }

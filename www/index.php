@@ -15,9 +15,6 @@ try {
     } else {
         $url = explode("/", filter_var($_GET['page'], FILTER_SANITIZE_URL));
         switch ($url[0]) {
-            case 'accueil':
-                $livresController->afficherLivresAccueil();
-                break;
             case 'livres':
                 if (empty($url[1])) {
                     $livresController->afficherLivres();
@@ -26,11 +23,13 @@ try {
                 } else if ($url[1] === "a") {
                     $livresController->ajoutLivre();
                 } else if ($url[1] === "m") {
-                    echo "modifier un livre";
+                    $livresController->modifierLivre(intval($url[2]));
                 } else if ($url[1] === "s") {
                     $livresController->suppressionLivre(intval($url[2]));
                 } else if ($url[1] === "av") {
                     $livresController->ajoutLivreValidation();
+                } else if ($url[1] === "mv") {
+                    $livresController->modificationLivreValidation();
                 } else {
                     throw new Exception("La page n'existe pas");
                 }
@@ -47,6 +46,6 @@ try {
         }
     }
 } catch (Exception $e) {
-    // echo $e->getMessage();
+    $msg = $e->getMessage();
     require "views/error.view.php";
 }
