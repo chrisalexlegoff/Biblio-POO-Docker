@@ -6,7 +6,7 @@
         <div class="card my-3 mx-auto w-25" style="min-width: 350px;">
             <h3 class="card-header"><?= $livre->getTitre() ?></h3>
             <div class="card-body">
-                <h4 class="card-title">Auteur : Christophe</h5>
+                <h4 class="card-title">Uploader : <?= $livre->getUploader() ?></h5>
             </div>
             <img class="mx-auto" style="height: auto; width: 150px;" src="public/images/<?= $livre->getImage(); ?>">
             <div class=" card-body">
@@ -16,7 +16,7 @@
                     </a>
                 </div>
                 <div class="card-footer text-muted">
-                    date de parution : 21/10/2024
+                    Nombre de pages : <?= $livre->getNbPages() ?>
                 </div>
             </div>
         </div>

@@ -32,6 +32,7 @@ class LivreManager extends ConnexionManager
         foreach ($this->livres as $livre) {
             if ($livre->getId() === $id) return $livre;
         }
+        throw new Exception("Le livre avec l'id : $id n'existe pas!");
     }
 
     public function ajoutLivreBd($titre, $nbPages, $image)
@@ -62,6 +63,41 @@ class LivreManager extends ConnexionManager
         if ($resultat > 0) {
             $livre = $this->getLivreById($id_livre);
             unset($livre);
+        }
+    }
+
+    public function getAllLivres()
+    {
+        $connexion = $this->getConnexionBdd();
+        $req = $connexion->prepare("SELECT * from livre l left join user u on l.id_user = u.id_user");
+        $req->execute();
+        $livresImportes = $req->fetchALL(PDO::FETCH_ASSOC);
+        $req->closeCursor();
+
+        $this->livres = [];
+        foreach ($livresImportes as $livre) {
+            $nouveauLivre = new Livre($livre['id_livre'], $livre['titre'], $livre['nb_pages'], $livre['image'], $livre['identifiant'] != null ? $livre['identifiant'] : "Pas d'uploader");
+            $this->ajouterLivre($nouveauLivre);
+        }
+
+        return $this->livres;
+    }
+
+    public function modificationLivreBd($id_livre, $titre, $nbPages, $image)
+    {
+        $req = "UPDATE livre set titre = :titre, nb_pages = :nbPages, image = :image, id_user = :id_user where id_livre = :id_livre";
+        $stmt = $this->getConnexionBdd()->prepare($req);
+        $stmt->bindValue(":id_livre", $id_livre, PDO::PARAM_INT);
+        $stmt->bindValue(":titre", $titre, PDO::PARAM_STR);
+        $stmt->bindValue(":nbPages", $nbPages, PDO::PARAM_INT);
+        $stmt->bindValue(":image", $image, PDO::PARAM_STR);
+        $stmt->bindValue(":id_user", $_SESSION['user']['id'], PDO::PARAM_INT);
+        $resultat = $stmt->execute();
+        $stmt->closeCursor();
+        if ($resultat > 0) {
+            $this->getLivreById($id_livre)->setTitre($titre);
+            $this->getLivreById($id_livre)->setNbPages($nbPages);
+            $this->getLivreById($id_livre)->setImage($image);
         }
     }
 
